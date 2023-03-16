@@ -27,4 +27,9 @@ public class ListSEService {
     {
         return kids.getHead();
     }
+
+    public void invert(){
+        kids.invert();
+    }
+
 }

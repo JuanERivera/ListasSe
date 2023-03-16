@@ -36,6 +36,15 @@ public class ListSE {
             head = new Node(kid);
         }
     }
+    public int size() {
+        int size = 0;
+        Node temp = head;
+        while (temp != null){
+            size++;
+            temp = temp.getNext();
+        }
+        return size;
+    }
 
     /* Adicionar al inicio
     si hay datos
@@ -46,15 +55,6 @@ public class ListSE {
     no
         meto el niño en un costal y lo asigno a la cabez
      */
-    public int size() {
-        int size = 0;
-        Node temp = head;
-        while (temp != null){
-            size++;
-            temp = temp.getNext();
-        }
-        return size;
-    }
     public void addToStart(Kid kid){
         if(head !=null)
         {
@@ -66,7 +66,19 @@ public class ListSE {
             head = new Node(kid);
         }
     }
+    public void addToFinal(Kid kid){
+        if(head == null){
+            head = new Node(kid);
+        }
+        else{
+            Node current = head;
+            while (current.getNext()!=null){
+                current = current.getNext();
+            }
+            current.setNext(new Node(kid));
+        }
 
+    }
     public void addInPosition(int position, Kid kid){
         if (size() >= position) {
 
@@ -78,10 +90,10 @@ public class ListSE {
                     temp = temp.getNext();
                 }
             }
-            } else {
-                add(kid);
-            }
+        } else {
+            add(kid);
         }
+    }
 
     public void deletekid(String identification) {
         Node temp = head;
@@ -90,19 +102,47 @@ public class ListSE {
             beforeNode = temp;
             temp = temp.getNext();
         }
-            if (temp != null){
-                if (beforeNode == null){
-                    head=temp.getNext();
-                }
-                else{
-                    beforeNode.setNext(temp.getNext());
-                }
+        if (temp != null){
+            if (beforeNode == null){
+                head=temp.getNext();
             }
+            else{
+                beforeNode.setNext(temp.getNext());
+            }
+        }
 
 
     }
+    public void invert(){
+        if(this.head != null){
+            ListSE listTemp = new ListSE();
+            Node temp = this.head;
+            while (temp != null){
+                listTemp.addToStart(temp.getData());
+                temp = temp.getNext();
+            }
+            this.head = listTemp.getHead();
+        }
+    }
+
+    public void sendToTheEndByInitial(char initialletter) {
+        ListSE initialbuttonlist = new ListSE();
+        Node temp = this.head;
+
+        while (temp != null){
+            if (temp.getData().getName().charAt(0) != Character.toLowerCase(initialletter)){
+                initialbuttonlist.addToFinal(temp.getData());
+            }
+            temp = temp.getNext();
+        }
+        temp = this.head;
+        while (temp != null){
+            if (temp.getData().getName().charAt(0) == Character.toLowerCase(initialletter)){
+                initialbuttonlist.addToFinal(temp.getData());
+            }
+            temp = temp.getNext();
+        }
+        this.head = initialbuttonlist.getHead();
+    }
 }
-
-
-
 
