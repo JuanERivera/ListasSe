@@ -70,7 +70,7 @@ public class ListSEController {
 
     }
     @PostMapping (path = "/kids/{position}")
-    public ResponseEntity<ResponseDTO> addByPosition(@PathVariable int position @RequestBody Kid kid){
+    public ResponseEntity<ResponseDTO> addByPosition(@PathVariable int position, @RequestBody Kid kid){
         listSEService.addByPosition(position, kid);
             return new ResponseEntity<>(new ResponseDTO(
                     200, "El niño se movió de posición", null),HttpStatus.OK);

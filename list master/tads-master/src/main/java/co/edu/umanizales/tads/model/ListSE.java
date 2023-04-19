@@ -62,7 +62,7 @@ public class ListSE {
     }
     public void addByPosition(Kid kid)
     {
-        int position;
+        int position = 0;
         if(position == 1)
         {
             addToStart(kid);
