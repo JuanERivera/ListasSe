@@ -1,5 +1,6 @@
 package co.edu.umanizales.tads.controller;
 
+import co.edu.umanizales.tads.controller.dto.GenderDTO;
 import co.edu.umanizales.tads.controller.dto.KidDTO;
 import co.edu.umanizales.tads.controller.dto.KidsByLocationDTO;
 import co.edu.umanizales.tads.controller.dto.ResponseDTO;
@@ -135,5 +136,23 @@ public class ListSEController {
         listSEService.removeByCode(identification);
         return "Elemento con código " + identification + " eliminado de la lista";
     }
+    @GetMapping(path = "reportkids")
+    public ResponseEntity<ResponseDTO> reportkids(@PathVariable byte age){
+        List<GenderDTO> GenderDTOlist = new ArrayList<>();
+        for (Location loc:locationService.getLocations()){
+            if (loc.getCode().length()==8){
+                String nameCity = loc.getName();
+                List<GenderDTO> genderDTOList = new ArrayList<>();
+                genderDTOList.add(new GenderDTO('m', listSEService.getKids().CountKidsByCityAndGender(loc.getCode(),
+                        'm', age)));
+                genderDTOList.add(new GenderDTO('f', listSEService.getKids().CountKidsByCityAndGender(loc.getCode(),
+                        'f', age)));
+                int total = genderDTOList.get(0).getQuantity()+genderDTOList.get(1).getQuantity();
+                genderDTOList.add(new GenderDTO(nameCity, genderDTOList, total));
+            }
+        }
+        return new ResponseEntity<>(new ResponseDTO(200, GenderDTOlist, null ),HttpStatus.OK)
+    }
+
 }
 

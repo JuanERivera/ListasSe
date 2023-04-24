@@ -9,4 +9,20 @@ import lombok.Data;
 public class KidsByLocationDTO {
     private Location location;
     private int quantity;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

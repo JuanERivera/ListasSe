@@ -69,6 +69,7 @@ public class ListSE {
         }
         else
         {
+
             int posTemp=1;
             Node temp = head;
             while(posTemp < (position -1))
@@ -212,4 +213,21 @@ public class ListSE {
             current = current.getNext();
         }
     }
+    public int CountKidsByCityAndGender(String code, char gender, byte limiter){
+        byte limit = limiter;
+        int count = 0;
+        if (this.head != null){
+            Node temp = this.head;
+            while (temp != null){
+                if (temp.getData().getLocation().getCode().substring(0,8).equals(code)
+                    && temp.getData().getGender() == gender
+                    && temp.getData().getAge() > limit){
+                    count++;
+                }
+                temp = temp.getNext();
+            }
+        }
+        return count;
+    }
+
 }
