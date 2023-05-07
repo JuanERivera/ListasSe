@@ -1,13 +1,11 @@
-package co.edu.umanizales.tads.model;
-import lombok.AllArgsConstructor;
+package co.edu.umanizales.tads.controller.dto;
+
 import lombok.Data;
-import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.*;
 
 @Data
-@AllArgsConstructor
-public class Pet {
+public class PetDTO {
     @NotNull
     @NotBlank(message = "Este campo no puede ir vacio")
     private String ID;
@@ -25,5 +23,5 @@ public class Pet {
     private byte petage;
     @NotNull
     @NotBlank(message = "Este campo no puede ir vacio")
-    private LocationDE locationDE;
+    private String codelocationde;
 }
