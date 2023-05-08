@@ -4,6 +4,8 @@ import lombok.Data;
 @Data
 public class ListDE {
     private NodeDE head;
+    private NodeDE current;
+    private NodeDE tail;
     private int size;
 
     public void addPet(Pet pet) throws ListaDEException {
@@ -26,6 +28,7 @@ public class ListDE {
         }
         size++;
     }
+
     public void addPetToStart(Pet pet) {
         NodeDE newNode = new NodeDE(pet);
         if (head != null) {
@@ -45,19 +48,19 @@ public class ListDE {
         }
 
         NodeDE newNode = new NodeDE(pet);
-        if (position == 0){
+        if (position == 0) {
             newNode.setNext(head);
-            if (head != null){
+            if (head != null) {
                 head.setPrevious(newNode);
             }
             head = newNode;
         } else {
             NodeDE temp = head;
-            for (int i = 0; i < position - 1; i++){
+            for (int i = 0; i < position - 1; i++) {
                 temp = temp.getNext();
             }
             newNode.setNext(temp.getNext());
-            if (temp.getNext()!=null){
+            if (temp.getNext() != null) {
                 temp.getNext().setPrevious(newNode);
             }
             temp.setNext(newNode);
@@ -66,7 +69,7 @@ public class ListDE {
         size++;
     }
 
-    public void deleteById(String code) throws ListaDEException {
+    public void deleteById(String ID) throws ListaDEException {
         if (head == null) {
             throw new ListaDEException("ERROR: La lista está vacía");
         }
@@ -75,7 +78,7 @@ public class ListDE {
         NodeDE current = head;
 
         while (current != null) {
-            if (current.getData().getID().equals(code)) {
+            if (current.getData().getID().equals(ID)) {
                 found = true;
                 break;
             }
@@ -102,6 +105,7 @@ public class ListDE {
 
         size--;
     }
+
     public void invertPets() throws ListaDEException {
         if (this.head == null) {
             throw new ListaDEException("ERROR: La lista está vacía");
@@ -115,6 +119,7 @@ public class ListDE {
         }
         this.head = listCP.getHead();
     }
+
     public void getMaleToStart() throws ListaDEException {
 
         ListDE tempList = new ListDE();
@@ -125,24 +130,25 @@ public class ListDE {
         int count = 0;
         int countFamle = 0;
         while (temp != null) {
-            if (temp.getData().getSex()=='M'){
+            if (temp.getData().getSex() == 'M') {
                 tempList.addPetToStart(temp.getData());
                 count++;
-            }else {
+            } else {
                 tempList.addPet(temp.getData());
-                countFamle ++;
+                countFamle++;
 
             }
             temp = temp.getNext();
 
         }
-        if  (count ==0 || countFamle ==0 ) throw new ListaDEException("ERROR: solo hay mascotas de un solo sexo");
+        if (count == 0 || countFamle == 0) throw new ListaDEException("ERROR: solo hay mascotas de un solo sexo");
 
         head = tempList.getHead();
 
 
     }
-    public void intercalatePetsByGender() throws ListaDEException{
+
+    public void intercalatePetsByGender() throws ListaDEException {
         ListDE listPetMale = new ListDE();
         ListDE listPetFemale = new ListDE();
         NodeDE temp = this.head;
@@ -175,22 +181,22 @@ public class ListDE {
         }
         this.head = newListPetsFemale.getHead();
     }
+
     public void deleteByPetAge(byte petage) throws ListaDEException {
         ListDE tempList = new ListDE();
         ListDE tempList2 = new ListDE();
 
         NodeDE temp = head;
-        if(temp==null) throw new ListaDEException("ERROR: La lista esta vacía");
+        if (temp == null) throw new ListaDEException("ERROR: La lista esta vacía");
 
 
         while (temp != null) {
             if (temp.getData().getPetage() != petage) {
-                size=1;
+                size = 1;
                 tempList.addPet(temp.getData());
                 size++;
 
-            }
-            else {
+            } else {
                 tempList2.addPet(temp.getData());
             }
 
@@ -198,11 +204,13 @@ public class ListDE {
             temp = temp.getNext();
 
         }
-        if  (tempList2.head==null) throw new ListaDEException("ERROR: en la lista no hay ningúna mascota con esa edad ");
+        if (tempList2.head == null)
+            throw new ListaDEException("ERROR: en la lista no hay ningúna mascota con esa edad ");
 
         head = tempList.getHead();
 
     }
+
     public float calculateAveragepetage() throws ListaDEException {
         if (head == null) {
             throw new ListaDEException("La lista está vacía");
@@ -220,6 +228,7 @@ public class ListDE {
 
         return (float) ages / contador;
     }
+
     public int getCountPetsByLocationCode(String code) throws ListaDEException {
         int count = 0;
         if (this.head != null) {
@@ -231,12 +240,12 @@ public class ListDE {
                 temp = temp.getNext();
             }
             return count;
-        } else{
+        } else {
             throw new ListaDEException("La lista está vacía");
         }
     }
 
-    public int getCountPetsByDepartmentCode(String code) throws ListaDEException{
+    public int getCountPetsByDepartmentCode(String code) throws ListaDEException {
         int count = 0;
         if (this.head != null) {
             NodeDE temp = this.head;
@@ -247,22 +256,22 @@ public class ListDE {
                 temp = temp.getNext();
             }
             return count;
-        }
-        else{
+        } else {
             throw new ListaDEException("La lista está vacía");
         }
     }
-    public void forwardPosition(String id, int motion) throws ListaDEException {
+
+    public void forwardPosition(String ID, int motion) throws ListaDEException {
 
         NodeDE temp = this.head;
-        if(temp==null) throw new ListaDEException("ERROR: La lista esta vacía");
-        if(motion>size || motion<0) throw new ListaDEException("ERROR: EL movimiento "+ motion + " no se puedo hacer");
-
+        if (temp == null) throw new ListaDEException("ERROR: La lista esta vacía");
+        if (motion > size || motion < 0)
+            throw new ListaDEException("ERROR: EL movimiento " + motion + " no se puedo hacer");
 
 
         int count = 1;
 
-        while (temp != null && !temp.getData().getID().equals(id)) {
+        while (temp != null && !temp.getData().getID().equals(ID)) {
 
             temp = temp.getNext();
             count++;
@@ -270,26 +279,28 @@ public class ListDE {
         }
 
         if (temp != null) {
-            int diferencia = count- motion;
+            int diferencia = count - motion;
             Pet petcopy = temp.getData();
             deleteById(temp.getData().getID());
             if (diferencia > 0) {
-                addPetByPosition(petcopy, diferencia);}
-            else{
+                addPetByPosition(petcopy, diferencia);
+            } else {
                 addPetToStart(petcopy);
             }
         }
 
     }
-    public void afterwardPosition (String id,int motion) throws ListaDEException {
+
+    public void afterwardPosition(String ID, int motion) throws ListaDEException {
 
         NodeDE temp = this.head;
-        if(temp==null) throw new ListaDEException("ERROR: La lista esta vacía");
-        if(motion>size || motion<0) throw new ListaDEException("ERROR: EL movimiento "+ motion + " no se puedo hacer");
+        if (temp == null) throw new ListaDEException("ERROR: La lista esta vacía");
+        if (motion > size || motion < 0)
+            throw new ListaDEException("ERROR: EL movimiento " + motion + " no se puedo hacer");
 
         int count = 1;
 
-        while (temp != null && !temp.getData().getID().equals(id)) {
+        while (temp != null && !temp.getData().getID().equals(ID)) {
 
             temp = temp.getNext();
             count++;
@@ -303,7 +314,8 @@ public class ListDE {
         }
 
     }
-    public void sendButtomByInitial(char initial) throws ListaDEException{
+
+    public void sendButtomByInitial(char initial) throws ListaDEException {
 
         if (this.head == null) {
             throw new ListaDEException("La lista está vacía");
@@ -312,8 +324,8 @@ public class ListDE {
         ListDE listCP = new ListDE();
         NodeDE temp = this.head;
 
-        while (temp != null){
-            if (temp.getData().getPetName().charAt(0) != Character.toUpperCase(initial)){
+        while (temp != null) {
+            if (temp.getData().getPetName().charAt(0) != Character.toUpperCase(initial)) {
                 listCP.addPet(temp.getData());
             }
             temp = temp.getNext();
@@ -321,8 +333,8 @@ public class ListDE {
 
         temp = this.head;
 
-        while (temp != null){
-            if (temp.getData().getPetName().charAt(0) == Character.toUpperCase(initial)){
+        while (temp != null) {
+            if (temp.getData().getPetName().charAt(0) == Character.toUpperCase(initial)) {
                 listCP.addPet(temp.getData());
             }
             temp = temp.getNext();
@@ -331,4 +343,54 @@ public class ListDE {
         this.head = listCP.getHead();
     }
 
+    /*
+    metodo eliminar kamikaze
+        primero verificamos si el primer dato esta vacio, si si lo esta, no se hace nada mas y tira la excepcion.
+        segundo inicializamos un bucle mientras el nodo current no sea nulo y el ID no coincida con el nodo especificado.
+            Si despues de recorrer toda la lista current es nulo significa que no encontramos ninguna ID que coincida
+            y arrojamos la excepcion.
+           Si current es igual a head, se actualiza head para que apunte al siguiente nodo en la lista. Si head no es nulo,
+            se actualiza el puntero prev del nuevo nodo head para que apunte a null.
+            Si current es igual a tail, se actualiza tail para que apunte al nodo anterior en la lista. Si tail no es nulo,
+             se actualiza el puntero next del nuevo nodo tail para que apunte a null.
+            Si current no es igual a head ni a tail, entonces el nodo a eliminar tiene nodos adyacentes.
+            Se actualizan los punteros prev y next de los nodos adyacentes para que apunten el uno al otro, omitiendo el nodo que se va a eliminar.
+            Se libera el nodo eliminado de los punteros prev y next, estableciendo ambos punteros en null.
+       Se actualiza current para que apunte al siguiente nodo en la lista (el nodo que sigue al nodo eliminado).
+       Si el nodo eliminado es el último nodo en la lista, entonces current apuntará a null.
+     */
+    public void deleteKamikazeById(String ID) throws ListaDEException {
+        if (current == null) {
+            throw new ListaDEException("La lista esta vacia");
+        }
+
+        while (current != null && current.getData().getID() != ID) {
+            current = current.getNext();
+        }
+
+        if (current == null) {
+            throw new ListaDEException("No se encontró una mascota con la identificación proporcionada.");
+        }
+
+        if (current == head) {
+            head = current.getNext();
+            if (head != null) {
+                head.setPrevious(null);
+            }
+        } else if (current == tail) {
+            tail = current.getPrevious();
+            if (tail != null) {
+                tail.setNext(null);
+            }
+        } else {
+            current.getPrevious().setNext(current.getNext());
+            current.getNext().setPrevious(current.getPrevious());
+        }
+
+        NodeDE temp = current;
+        current = current.getNext();
+        temp.setPrevious(null);
+        temp.setNext(null);
+    }
 }
+

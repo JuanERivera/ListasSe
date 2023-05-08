@@ -74,9 +74,9 @@ public class ListDEController {
         }
     }
     @DeleteMapping(path = "/deletebyid/{code}")
-    public ResponseEntity<ResponseDTO> deleteById(@PathVariable String code) {
+    public ResponseEntity<ResponseDTO> deleteById(@PathVariable String ID) {
         try {
-            listDEService.getPets().deleteById(code);
+            listDEService.getPets().deleteById(ID);
             return new ResponseEntity<>(new ResponseDTO(200, "La mascota ha sido eliminada", null), HttpStatus.OK);
         } catch (ListaDEException e) {
             return new ResponseEntity<>(new ResponseDTO(500, "Error al eliminar la mascota: " + e.getMessage(), null), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -178,10 +178,10 @@ public class ListDEController {
         }
     }
 
-    @GetMapping(path = "/advanceposition/{code}/{move}")
-    public ResponseEntity<ResponseDTO> forwardPosition(@PathVariable String code, @PathVariable int move) throws ListaDEException {
+    @GetMapping(path = "/advanceposition/{ID}/{move}")
+    public ResponseEntity<ResponseDTO> forwardPosition(@PathVariable String ID, @PathVariable int move) throws ListaDEException {
         try {
-            listDEService.getPets().forwardPosition(code, move);
+            listDEService.getPets().forwardPosition(ID, move);
 
         } catch (ListaDEException e) {
             return new ResponseEntity<>(new ResponseDTO(409, e.getMessage(), null), HttpStatus.OK);
@@ -190,10 +190,10 @@ public class ListDEController {
                 new ResponseDTO(200, "Se movio la mascota " + move + " posiciones adelante", null),
                 HttpStatus.OK);
     }
-    @GetMapping(path = "/lostposition/{code}/{move}")
-    public ResponseEntity<ResponseDTO> afterwardPosition(@PathVariable String code, @PathVariable int move) throws ListaDEException {
+    @GetMapping(path = "/lostposition/{ID}/{move}")
+    public ResponseEntity<ResponseDTO> afterwardPosition(@PathVariable String ID, @PathVariable int move) throws ListaDEException {
         try {
-            listDEService.getPets().afterwardPosition(code, move);
+            listDEService.getPets().afterwardPosition(ID, move);
 
         } catch (ListaDEException e) {
             return new ResponseEntity<>(new ResponseDTO(409, e.getMessage(), null), HttpStatus.OK);
@@ -222,4 +222,17 @@ public class ListDEController {
         petranges.add(new RangePetAgeDTO(10,14,6));
         return petranges;
     }
+    @DeleteMapping("/deletekamikazebyid/{id}")
+    public ResponseEntity<String> deleteKamikazeById(@PathVariable String ID) {
+        try {
+            listDEService.getPets().deleteKamikazeById(ID);
+            return ResponseEntity.ok("Nodo eliminado correctamente.");
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("No se encontró un nodo con el id proporcionado.");
+        } catch (ListaDEException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
